@@ -7,9 +7,11 @@ public class Board {
   private boolean revealed = false;
 
   public Board() {
+    // set the phrase every time the board is constructed
     this.setPhrase();
   }
 
+  // function to load the phrase
   private String loadPhrase() {
     String tempPhrase = "";
 
@@ -44,23 +46,25 @@ public class Board {
     return tempPhrase;
   }
 
-//list of letters guessed that round
+  // list of letters guessed that round
   public String getLettersGuessed() {
     return this.lettersGuessed;
   }
 
-  //correctly guessed letters are shown in their proper places, unguessed letters are represented by _
+  // correctly guessed letters are shown in their proper places, unguessed letters
+  // are represented by _
   public boolean getRevealed() {
     return this.revealed;
   }
 
-  //loads a new phrase after the previous is comshpletely guessed
+  // loads a new phrase after the previous is comshpletely guessed
   public void setPhrase() {
     this.phrase = loadPhrase();
   }
 
   // checks if the entire phrase has been guessed correctly
-  // if all letters in the phrase lie in the lettersGuessed letter bank, the phrase is deemed as fully guessed
+  // if all letters in the phrase lie in the lettersGuessed letter bank, the
+  // phrase is deemed as fully guessed
   public void setRevealed() {
     for (int i = 0; i < phrase.length(); i++) {
       String currentChar = phrase.substring(i, i + 1);
@@ -78,27 +82,30 @@ public class Board {
     this.revealed = revealed;
   }
 
-//checks if a player's letter input has already been guessed
-// DO NOT CALL WITH LETTERS ALREADY GUESSED
+  // checks if a player's letter input has already been guessed
+  // DO NOT CALL WITH LETTERS ALREADY GUESSED
   public boolean guessLetter(String letter) {
     this.lettersGuessed += letter;
     this.setRevealed();
     return this.phrase.contains(letter);
   }
 
-  //checks if the player's guessed phrase matches the mystery phrase
+  // checks if the player's guessed phrase matches the mystery phrase
   public boolean guessPhrase(String guessPhrase) {
     return guessPhrase.toLowerCase().equals(phrase);
-  } 
+  }
 
-  //takes original phrase, keeps any correctly guessed letters, and replaces all other letters with _
+  // takes original phrase, keeps any correctly guessed letters, and replaces all
+  // other letters with _
   @Override
   public String toString() {
     String ret = "";
     for (int i = 0; i < phrase.length(); i++) {
       String currentChar = phrase.substring(i, i + 1);
-      if (lettersGuessed.contains(currentChar) || currentChar.equals(" "))  ret += currentChar;
-      else ret += "_";
+      if (lettersGuessed.contains(currentChar) || currentChar.equals(" "))
+        ret += currentChar;
+      else
+        ret += "_";
     }
     return ret;
   }

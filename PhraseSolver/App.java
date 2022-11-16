@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class App {
+    // enum for players
     enum CurrentPlayer {
         PLAYER_ONE,
         PLAYER_TWO
@@ -25,11 +26,14 @@ public class App {
 
         System.out.println();
 
+        // loop until players want to exit
         while (!finished) {
+            // create a new board each game to reset props like phrase
             Board board = new Board();
 
             System.out.printf("Player 1 (%s), please press ENTER to spin the spinner!", player1.getName());
             sc.nextLine(); // eat next line
+            // display spinner (maybe make into a function)
             try {
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 4; j++) {
@@ -46,6 +50,7 @@ public class App {
 
             System.out.printf("Player 2 (%s), please press ENTER to spin the spinner!", player2.getName());
             sc.nextLine(); // eat next line
+            // display spinner
             try {
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 4; j++) {
@@ -67,8 +72,9 @@ public class App {
             }
 
             while (!board.getRevealed()) {
+                // clear screen every time player switches
                 System.out.print("\u001b[2J" + "\u001b[H");
-                System.out.println();
+                // System.out.println();
                 System.out.println("Player " + (currentPlayer == CurrentPlayer.PLAYER_ONE
                         ? "1 (" + player1.getName() + ")'s turn (score: " + player1.getScore() + ")"
                         : "2 (" + player2.getName() + ")'s turn (score: " + player2.getScore() + ")"));
@@ -81,8 +87,8 @@ public class App {
 
                     // display phrase + pletters
                     System.out.println();
-                    System.out.println("Phrase: " + "\u001B[1m" + board + "\u001B[0m"); // todo: handle letter not in word
-                    System.out.println("Letters guessed: [" + "\u001B[1m" + "\u001B[36m" + board.getLettersGuessed()
+                    System.out.println("Phrase: " + "\u001B[1m" + board + "\u001B[0m"); // display board in bold
+                    System.out.println("Letters guessed: [" + "\u001B[1m" + "\u001B[36m" + board.getLettersGuessed() // displayed bold and orange
                             + "\u001B[0m" + "]");
                     System.out.println();
 
@@ -93,6 +99,7 @@ public class App {
                     if (letter.equals("/")) {
                         validGuess = true;
                         System.out.print("Please enter your guess: ");
+                        // make user input inverted in color
                         System.out.print("\u001B[7m");
                         String guessPhrase = sc.nextLine();
                         System.out.print("\u001B[0m");
@@ -102,8 +109,7 @@ public class App {
                         } else {
                             System.out.println("Sorry! Your guess was incorrect.");
                         }
-                        // run checks to see if input is valid
-                    } else {
+                    } else { // run checks to see if input is valid
                         if (letter.length() == 1) {
                             if (alphabet.contains(letter)) {
                                 if (!board.getLettersGuessed().contains(letter)) {
@@ -138,7 +144,7 @@ public class App {
                 }
             }
 
-            // display winner + updated score
+            // display winner of round + update scores
             System.out.println(
                     (currentPlayer == CurrentPlayer.PLAYER_ONE ? "Player 1" : "Player 2") + " wins the round!");
             if (currentPlayer == CurrentPlayer.PLAYER_ONE)
@@ -160,11 +166,27 @@ public class App {
                 }
             }
 
-            if (response.equals("n"))
+            // display overall winner and exit game
+            if (response.equals("n")) {
+                String winner = "";
+                if (player1.getScore() > player2.getScore()) {
+                    winner = "Player 1 (" + player1.getScore() + ")!";
+                } else if (player1.getScore() < player2.getScore()) {
+                    winner = "Player 2 (" + player2.getScore() + ")!";
+                } else {
+                    winner = "nobody...";
+                }
+
+                System.out.println("The winner is: " + winner);
+                System.out.println("Thanks for playing!");
+
                 break;
+            }
 
             System.out.println();
         }
+
+        // close scanner to prevent leakage
         sc.close();
     }
 }

@@ -2,7 +2,7 @@ public class Spinner {
     private int range;
     private int min;
 
-    public static final char[] visual = new char[] {'/', '-', '|', '\\'};
+    public static final char[] visual = new char[] { '/', '-', '|', '\\' };
 
     public Spinner() {
         range = 400;
@@ -15,6 +15,6 @@ public class Spinner {
     }
 
     public int getValue() {
-        return ((int)(Math.random() * range) + min);
+        return ((int) (Math.random() * range) + min);
     }
 }
