@@ -1,7 +1,7 @@
 public class Spinner {
     private int range;
     private int min;
-
+    // spinner code, random number from 100-400
     public static final char[] visual = new char[] { '/', '-', '|', '\\' };
 
     public Spinner() {

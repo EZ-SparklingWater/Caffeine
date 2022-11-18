@@ -27,6 +27,7 @@ public class App {
         System.out.println();
 
         // loop until players want to exit
+        // player starts as last winner
         while (!finished) {
             // create a new board each game to reset props like phrase
             Board board = new Board();
@@ -45,6 +46,7 @@ public class App {
             } catch (Exception e) {
                 System.out.println();
             }
+            // fairly self explanatory, player spin print out
             player1.setSpinnerVal(spinner.getValue());
             System.out.println("You spun " + player1.getSpinnerVal() + "!");
 
@@ -64,7 +66,8 @@ public class App {
             }
             player2.setSpinnerVal(spinner.getValue());
             System.out.println("You spun " + player2.getSpinnerVal() + "!");
-
+            // just a delay, so after the second player's spin the code will pause to allow
+            // the players to read the spun number
             try {
                 Thread.sleep(2500);
             } catch (Exception e) {
@@ -72,7 +75,7 @@ public class App {
             }
 
             while (!board.getRevealed()) {
-                // clear screen every time player switches
+                // clear screen every time player switches (when one person's turn is over)
                 System.out.print("\u001b[2J" + "\u001b[H");
                 // System.out.println();
                 System.out.println("Player " + (currentPlayer == CurrentPlayer.PLAYER_ONE
@@ -88,7 +91,10 @@ public class App {
                     // display phrase + pletters
                     System.out.println();
                     System.out.println("Phrase: " + "\u001B[1m" + board + "\u001B[0m"); // display board in bold
-                    System.out.println("Letters guessed: [" + "\u001B[1m" + "\u001B[36m" + board.getLettersGuessed() // displayed bold and orange
+                    System.out.println("Letters guessed: [" + "\u001B[1m" + "\u001B[36m" + board.getLettersGuessed() // displayed
+                                                                                                                     // bold
+                                                                                                                     // and
+                                                                                                                     // orange
                             + "\u001B[0m" + "]");
                     System.out.println();
 
@@ -107,7 +113,7 @@ public class App {
                             board.setRevealed(true);
                             System.out.println("Correct!");
                         } else {
-                            System.out.println("Sorry! Your guess was incorrect.");
+                            System.out.println("\u001B[31m" + "Sorry! Your guess was incorrect." + "\u001B[0m");
                         }
                     } else { // run checks to see if input is valid
                         if (letter.length() == 1) {
@@ -118,17 +124,17 @@ public class App {
                                     goodGuess = board.guessLetter(letter);
                                 } else {
                                     validGuess = false;
-                                    System.out.println("Letter already guessed!");
+                                    System.out.println("\u001B[31m" + "Letter already guessed!" + "\u001B[0m");
                                     continue;
                                 }
                             } else {
                                 validGuess = false;
-                                System.out.println("Please input a lowercase letter!");
+                                System.out.println("\u001B[31m" + "Please input a lowercase letter!" + "\u001B[0m");
                                 continue;
                             }
                         } else {
                             validGuess = false;
-                            System.out.println("Please input a singular letter!");
+                            System.out.println("\u001B[31m" + "Please input a singular letter!" + "\u001B[0m");
                             continue;
                         }
                     }
@@ -157,7 +163,8 @@ public class App {
                     + (currentPlayer == CurrentPlayer.PLAYER_ONE ? player1.getScore() : player2.getScore()) + "!");
 
             // ask for continuing game/looping
-            System.out.println("Would you like to keep going? (y/n)");
+            System.out.println();
+            System.out.println("\u001B[3m" + "Would you like to keep going? (y/n)" + "\u001B[0m");
             String response = "";
             while (!response.equals("y") && !response.equals("n")) {
                 response = sc.nextLine();
@@ -170,9 +177,9 @@ public class App {
             if (response.equals("n")) {
                 String winner = "";
                 if (player1.getScore() > player2.getScore()) {
-                    winner = "Player 1 (" + player1.getScore() + ")!";
+                    winner = "Player 1 (" + player1.getName() + ")!";
                 } else if (player1.getScore() < player2.getScore()) {
-                    winner = "Player 2 (" + player2.getScore() + ")!";
+                    winner = "Player 2 (" + player2.getName() + ")!";
                 } else {
                     winner = "nobody...";
                 }

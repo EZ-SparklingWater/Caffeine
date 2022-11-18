@@ -3,6 +3,7 @@ public class Player {
     private int score;
     private int spinnerVal;
 
+    // player, score, spinner val
     public Player(String name) {
         this.name = name;
     }
